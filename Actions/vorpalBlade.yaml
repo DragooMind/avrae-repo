@@ -9,17 +9,13 @@ automation:
         onError: "0"
       - type: attack
         hit:
-          - type: condition
-            condition: lastAttackNaturalRoll==20
-            onTrue:
-              - type: damage
-                damage: 1d8+{3+strengthMod}+3d8[magical slashing{{'^' if isResistant else ''}}]
-                overheal: false
-            onFalse:
-              - type: damage
-                damage: 1d8+{3+strengthMod}[magical slashing{{'^' if isResistant else ''}}]
-                overheal: false
-            errorBehaviour: "false"
+          - type: variable
+            name: nat20
+            value: lastAttackNaturalRoll==20
+            onError: "0"
+          - type: damage
+            damage: 1d8+{3+strengthMod}{{'+3d8' if nat20 else ''}}[magical slashing{{'^' if
+              isResistant else ''}}]
         miss: []
         attackBonus: 3+strengthMod+proficiencyBonus
   - type: text
